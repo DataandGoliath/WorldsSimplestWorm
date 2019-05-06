@@ -105,7 +105,7 @@ class hacker(Thread):
     def run(self):
         while not self.ips.empty():
             ip = self.ips.get()
-            usernames = ["admin","root","guest","user"]
+            usernames = ["root","admin","guest","user"]
             passwords = ["toor","admin","guest","password","root","letmein","12345678","alpine"]
             ag = 0
             done = "E"+"O"+"F"
