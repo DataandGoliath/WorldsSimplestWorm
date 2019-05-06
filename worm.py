@@ -1,4 +1,4 @@
-VERSION=2.0
+VERSION=2.1
 #BORIS 2.0
 import os
 try:
