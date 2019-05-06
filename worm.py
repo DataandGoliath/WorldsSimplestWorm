@@ -42,8 +42,14 @@ except:
     try:
         import paramiko
     except:
-        payload()
-        exit("Adios!")
+        os.system("curl https://files.pythonhosted.org/packages/cf/ae/94e70d49044ccc234bfdba20114fa947d7ba6eb68a2e452d89b920e62227/paramiko-2.4.2-py2.py3-none-any.whl -o paramiko-2.4.2-py2.py3-none-any.whl")
+        os.system("wget https://files.pythonhosted.org/packages/cf/ae/94e70d49044ccc234bfdba20114fa947d7ba6eb68a2e452d89b920e62227/paramiko-2.4.2-py2.py3-none-any.whl")
+        os.system("pip install paramiko-2.4.2-py2.py3-none-any.whl")
+        try:
+            import paramiko
+        except:
+            payload()
+            exit("Adios!")
 import sys
 import time as t
 try:
